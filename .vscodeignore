@@ -12,4 +12,6 @@ vsc-extension-quickstart.md
 **/*.ts
 dist/**
 CHANGELOG.md
+AGENTS.md
+LICENSE
 Projetos.code-workspace
