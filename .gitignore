@@ -3,4 +3,7 @@ dist/*.vsix
 .vscode/
 *.vsix
 AGENTS.md
+<<<<<<< HEAD
 
+=======
+>>>>>>> 961fd0aab7385ceab620f2f55aaddf0ea80475b4
