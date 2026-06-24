@@ -7,11 +7,14 @@ src/**
 .yarnrc
 vsc-extension-quickstart.md
 **/tsconfig.json
-**/.eslintrc.json
+**/eslintrc.json
 **/*.map
 **/*.ts
 dist/**
-CHANGELOG.md
+node_modules/**
+.github/**
+scripts/**
+.git/**
+.eslintrc.json
 AGENTS.md
-LICENSE
 Projetos.code-workspace

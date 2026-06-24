@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.6.2] - 2026-06-24
+### Corrigido
+- Comando `openclaude` não era enviado ao terminal ao clicar no botão — apenas o terminal era aberto sem executar nada.
+
+## [0.6.1] - 2026-06-24
+### Alterado
+- Ícone da barra de status alterado de `$(cloud)` para `$(hubot)` (robô).
+
+## [0.6.0] - 2026-06-24
+### Adicionado
+- ESLint configurado para padronização do código.
+- CI/CD com GitHub Actions (lint + empacotamento automático).
+- Script de empacotamento cross-platform (scripts/package.js).
+
+### Alterado
+- Refatoração completa do extension.js: código mais limpo e modular.
+- Constantes STRINGS centralizadas para facilitar manutenção.
+- Detecção do OpenClaude CLI otimizada (usa `where`/`which` por plataforma).
+- Feedback visual com barra de progresso ao verificar instalação.
+- Tooltip dinâmico na barra de status (instalado vs não instalado).
+- Barra de status agora exibe apenas "Abrir OpenClaude" sem ícone genérico.
+- .vscodeignore revisado para incluir LICENSE e CHANGELOG no pacote.
+
+### Corrigido
+- Debounce no clique do botão da barra de status (evita múltiplos terminais).
+- Tratamento de erros no exec com try/catch.
+
 ## [0.5.1] - 2026-06-24
 
 ### Changed

@@ -1,0 +1,26 @@
+{
+  "env": {
+    "node": true,
+    "es2022": true,
+    "mocha": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-var": "error",
+    "prefer-const": "error",
+    "eqeqeq": ["error", "always"],
+    "curly": ["error", "all"],
+    "no-throw-literal": "error"
+  },
+  "globals": {
+    "module": "readonly",
+    "require": "readonly",
+    "__dirname": "readonly",
+    "process": "readonly"
+  }
+}

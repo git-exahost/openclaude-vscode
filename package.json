@@ -2,11 +2,11 @@
   "name": "openclaude-vscode",
   "displayName": "OpenClaude VS Code",
   "description": "Acesse rapidamente o OpenClaude diretamente do VS Code com um clique, atalho de teclado ou botão na barra de status.",
-  "version": "0.5.1",
+  "version": "0.6.2",
   "publisher": "EXABIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gitlawb/openclaude"
+    "url": "https://github.com/git-exahost/openclaude-vscode"
   },
   "icon": "images/icone.png",
   "engines": {
@@ -16,9 +16,12 @@
     "Other"
   ],
   "scripts": {
+    "lint": "eslint .",
     "package": "vsce package",
-    "package:out": "vsce package --out dist/openclaude-vscode-${npm_package_version}.vsix",
-    "lint": "echo 'No linter configured yet'"
+    "package:out": "node scripts/package.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
   },
   "activationEvents": [],
   "main": "./extension.js",

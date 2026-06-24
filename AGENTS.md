@@ -7,6 +7,8 @@ Este arquivo contém as diretrizes que devem ser seguidas por qualquer agente de
 - Siga as convenções existentes do projeto (estilo de código, estrutura, naming)
 - Mantenha o código limpo, legível e sem comentários desnecessários
 - Não adicione arquivos de documentação ou README a menos que explicitamente solicitado
+- **Sempre execute `npm run lint` antes de commitar** e corrija qualquer erro de lint
+- **Nunca remova ou ignore arquivos de configuração** (`.eslintrc.json`, `.github/workflows/`, etc.)
 
 ## Versionamento
 
@@ -29,3 +31,9 @@ Este arquivo contém as diretrizes que devem ser seguidas por qualquer agente de
 - Use commits semânticos (ex: `feat:`, `fix:`, `chore:`, `docs:`)
 - Faça commits atômicos (uma mudança por commit)
 - Mensagens em português ou inglês são aceitáveis, desde que consistentes
+
+## CI/CD
+
+- O projeto usa GitHub Actions para CI (`.github/workflows/ci.yml`)
+- O CI executa lint e empacotamento em pushes e PRs para a branch main
+- Nunca faça merge sem o CI estar verde
