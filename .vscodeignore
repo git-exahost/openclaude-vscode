@@ -1,0 +1,15 @@
+.vscodeignore
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+.gitattributes
+.yarnrc
+vsc-extension-quickstart.md
+**/tsconfig.json
+**/.eslintrc.json
+**/*.map
+**/*.ts
+dist/**
+CHANGELOG.md
+Projetos.code-workspace
