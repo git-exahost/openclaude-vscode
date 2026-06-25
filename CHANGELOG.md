@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.10.6] - 2026-06-25
+### Corrigido
+- Adicionado evento `onDidChangeTerminalState` para detectar quando o estado do terminal muda
+- Simplificado `isTerminalActive()` para ser mais direto (verifica apenas `name` e `exitStatus`)
+
+## [0.10.5] - 2026-06-25
+### Corrigido
+- Melhorado filtro `isTerminalActive()` para verificar `exitStatus !== undefined && exitStatus !== null`
+- Adicionado evento `onDidChangeActiveTerminal` para atualizar lista quando o terminal ativo muda
+- Melhorada verificação de propriedades para detectar terminais fechados popped out
+
 ## [0.10.4] - 2026-06-25
 ### Corrigido
 - Removido `sendText('', true)` da verificação de terminal que estava causando enter automático ao digitar

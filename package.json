@@ -2,7 +2,7 @@
   "name": "openclaude-vscode",
   "displayName": "OpenClaude para VS Code",
   "description": "Acesse rapidamente o OpenClaude diretamente do VS Code com um clique, atalho de teclado ou botão na barra de status.",
-  "version": "0.10.4",
+  "version": "0.10.6",
   "publisher": "EXABIT",
   "repository": {
     "type": "git",

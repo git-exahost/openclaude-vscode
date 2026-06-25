@@ -51,16 +51,13 @@ function installOpenClaude(terminal) {
 }
 
 function isTerminalActive(terminal) {
-  if (!terminal) {return false;}
+  if (!terminal) { return false; }
   try {
-    // Verifica 1: propriedades básicas
-    if (!terminal.name) {return false;}
-    if (terminal.exitStatus) {return false;}
+    // Verifica se o terminal tem nome e não tem exitStatus
+    if (!terminal.name) { return false; }
 
-    // Verifica 2: tenta acessar múltiplas propriedades
-    terminal.creationOptions;
-    terminal.state;
-    terminal.processId;
+    // Se exitStatus for definido, o terminal está fechado
+    if (terminal.exitStatus !== undefined) { return false; }
 
     return true;
   } catch (_err) {
@@ -425,6 +422,12 @@ function activate(context) {
   );
   context.subscriptions.push(
     vscode.window.onDidCloseTerminal(() => sidebarProvider._sendTerminals())
+  );
+  context.subscriptions.push(
+    vscode.window.onDidChangeActiveTerminal(() => sidebarProvider._sendTerminals())
+  );
+  context.subscriptions.push(
+    vscode.window.onDidChangeTerminalState(() => sidebarProvider._sendTerminals())
   );
 
   // --- Comando principal -------------------------------------------------
