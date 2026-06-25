@@ -3,3 +3,5 @@ dist/*.vsix
 .vscode/
 *.vsix
 AGENTS.md
+.dbg/
+debug-popped-out-terminal.md

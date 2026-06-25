@@ -5,6 +5,7 @@ const { promisify } = require('util');
 const execAsync = promisify(exec);
 const TERMINAL_NAME = 'OpenClaude';
 
+
 // ---------------------------------------------------------------------------
 // Utilitários
 // ---------------------------------------------------------------------------
@@ -50,6 +51,32 @@ function installOpenClaude(terminal) {
   terminal.sendText('npm install -g @gitlawb/openclaude');
 }
 
+function isOpenClaudeTerminalName(name) {
+  return name === TERMINAL_NAME || /^OpenClaude \(\d+\)$/.test(name);
+}
+
+function isTerminalTab(tab) {
+  try {
+    if (typeof vscode.TabInputTerminal === 'function' && tab.input instanceof vscode.TabInputTerminal) {
+      return true;
+    }
+    return tab.input && tab.input.constructor && tab.input.constructor.name === 'TabInputTerminal';
+  } catch (_err) {
+    return false;
+  }
+}
+
+function getVisibleTerminalTabLabels() {
+  try {
+    return vscode.window.tabGroups.all
+      .flatMap(group => group.tabs)
+      .filter(isTerminalTab)
+      .map(tab => tab.label);
+  } catch (_err) {
+    return [];
+  }
+}
+
 function isTerminalActive(terminal) {
   if (!terminal) { return false; }
   try {
@@ -66,22 +93,31 @@ function isTerminalActive(terminal) {
 }
 
 function getTerminalsInfo() {
-  return vscode.window.terminals
+  const visibleTerminalTabLabels = getVisibleTerminalTabLabels();
+  const visibleTerminalNames = new Set(visibleTerminalTabLabels);
+  const filtered = vscode.window.terminals
     .filter(t => {
       try {
-        return (t.name === TERMINAL_NAME || /^OpenClaude \(\d+\)$/.test(t.name)) && isTerminalActive(t);
+        return isOpenClaudeTerminalName(t.name)
+          && isTerminalActive(t)
+          && visibleTerminalNames.has(t.name);
       } catch (_) {
         return false;
       }
     })
     .map(t => ({ name: t.name }));
+
+  return filtered;
 }
 
 function getOpenClaudeTerminals() {
+  const visibleTerminalNames = new Set(getVisibleTerminalTabLabels());
   return vscode.window.terminals
     .filter(t => {
       try {
-        return (t.name === TERMINAL_NAME || /^OpenClaude \(\d+\)$/.test(t.name)) && isTerminalActive(t);
+        return isOpenClaudeTerminalName(t.name)
+          && isTerminalActive(t)
+          && visibleTerminalNames.has(t.name);
       } catch (_) {
         return false;
       }
@@ -168,6 +204,7 @@ class OpenClaudeSidebarProvider {
     this._iconDark = null;
     this._iconLight = null;
     this._refreshInterval = null;
+    this._refreshTimeout = null;
   }
 
   resolveWebviewView(webviewView, _context, _token) {
@@ -194,7 +231,7 @@ class OpenClaudeSidebarProvider {
     // Atualiza a lista periodicamente para garantir sincronismo
     this._refreshInterval = setInterval(() => {
       this._sendTerminals();
-    }, 1000);
+    }, 3000);
 
     // Limpa o intervalo quando a view for fechada
     webviewView.onDidDispose(() => {
@@ -202,7 +239,22 @@ class OpenClaudeSidebarProvider {
         clearInterval(this._refreshInterval);
         this._refreshInterval = null;
       }
+      if (this._refreshTimeout) {
+        clearTimeout(this._refreshTimeout);
+        this._refreshTimeout = null;
+      }
     });
+  }
+
+  // Agrupa chamadas em sequência para evitar excesso de atualizações
+  _debouncedRefresh() {
+    if (this._refreshTimeout) {
+      clearTimeout(this._refreshTimeout);
+    }
+    this._refreshTimeout = setTimeout(() => {
+      this._refreshTimeout = null;
+      this._sendTerminals();
+    }, 300);
   }
 
   _setupMessaging(webviewView) {
@@ -243,8 +295,10 @@ class OpenClaudeSidebarProvider {
   }
 
   _sendTerminals() {
+    const terminals = getTerminalsInfo();
+
     this._post('terminals', {
-      terminals: getTerminalsInfo(),
+      terminals,
       iconDark: this._iconDark ? this._iconDark.toString() : '',
       iconLight: this._iconLight ? this._iconLight.toString() : '',
     });
@@ -418,16 +472,14 @@ function activate(context) {
 
   // --- Auto-refresh da lista de terminais --------------------------------
   context.subscriptions.push(
-    vscode.window.onDidOpenTerminal(() => sidebarProvider._sendTerminals())
+    vscode.window.onDidOpenTerminal(() => {
+      sidebarProvider._debouncedRefresh();
+    })
   );
   context.subscriptions.push(
-    vscode.window.onDidCloseTerminal(() => sidebarProvider._sendTerminals())
-  );
-  context.subscriptions.push(
-    vscode.window.onDidChangeActiveTerminal(() => sidebarProvider._sendTerminals())
-  );
-  context.subscriptions.push(
-    vscode.window.onDidChangeTerminalState(() => sidebarProvider._sendTerminals())
+    vscode.window.onDidCloseTerminal(() => {
+      sidebarProvider._debouncedRefresh();
+    })
   );
 
   // --- Comando principal -------------------------------------------------

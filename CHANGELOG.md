@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.10.9] - 2026-06-25
+### Corrigido
+- Removido evento `onDidChangeTerminalState` que causava interferência na digitação
+- Sidebar agora só atualiza ao abrir/fechar terminais e a cada 3 segundos
+
+## [0.10.8] - 2026-06-25
+### Corrigido
+- Terminal desacoplado (popped out) fechado não é mais listado na sidebar
+- Removida instrumentação de diagnóstico da sessão de debug
+- Reduzida frequência de atualização da sidebar (polling a cada 3s, eventos com debounce de 300ms)
+
+## [0.10.7] - 2026-06-25
+### Alterado
+- Adicionada instrumentacao temporaria de diagnostico para capturar eventos e estado de terminais OpenClaude desacoplados
+
 ## [0.10.6] - 2026-06-25
 ### Corrigido
 - Adicionado evento `onDidChangeTerminalState` para detectar quando o estado do terminal muda

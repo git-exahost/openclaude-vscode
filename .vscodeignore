@@ -17,4 +17,6 @@ scripts/**
 .git/**
 .eslintrc.json
 AGENTS.md
-Projetos.code-workspace 
+Projetos.code-workspace
+.dbg/**
+debug-popped-out-terminal.md
