@@ -51,20 +51,16 @@ function installOpenClaude(terminal) {
 }
 
 function isTerminalActive(terminal) {
-  if (!terminal) { return false; }
+  if (!terminal) {return false;}
   try {
     // Verifica 1: propriedades básicas
-    if (!terminal.name) { return false; }
-    if (terminal.exitStatus) { return false; }
+    if (!terminal.name) {return false;}
+    if (terminal.exitStatus) {return false;}
 
     // Verifica 2: tenta acessar múltiplas propriedades
     terminal.creationOptions;
     terminal.state;
     terminal.processId;
-
-    // Verifica 3: tenta chamar um método que não causa efeitos
-    // mas lança erro se o terminal estiver fechado
-    terminal.sendText('', true); // Envia string vazia sem adicionar nova linha
 
     return true;
   } catch (_err) {

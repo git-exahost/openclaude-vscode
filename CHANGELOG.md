@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.10.4] - 2026-06-25
+### Corrigido
+- Removido `sendText('', true)` da verificação de terminal que estava causando enter automático ao digitar
+- A verificação agora usa apenas leitura de propriedades (`creationOptions`, `state`, `processId`) sem efeitos colaterais
+
 ## [0.10.3] - 2026-06-25
 ### Corrigido
 - Verificação super robusta para terminais popped out que permaneciam na lista:
