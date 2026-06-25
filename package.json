@@ -1,8 +1,8 @@
 {
   "name": "openclaude-vscode",
-  "displayName": "OpenClaude VS Code",
+  "displayName": "OpenClaude para VS Code",
   "description": "Acesse rapidamente o OpenClaude diretamente do VS Code com um clique, atalho de teclado ou botão na barra de status.",
-  "version": "0.6.2",
+  "version": "0.10.3",
   "publisher": "EXABIT",
   "repository": {
     "type": "git",
@@ -23,7 +23,9 @@
   "devDependencies": {
     "eslint": "^8.57.0"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onView:openclaude-vscode.sidebar"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -41,6 +43,25 @@
         {
           "command": "openclaude-vscode.open",
           "group": "navigation"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "openclaude-vscode",
+          "title": "OpenClaude",
+          "icon": "images/button-light.svg"
+        }
+      ]
+    },
+    "views": {
+      "openclaude-vscode": [
+        {
+          "type": "webview",
+          "id": "openclaude-vscode.sidebar",
+          "name": "OpenClaude",
+          "when": "workbenchState != 'empty'"
         }
       ]
     },

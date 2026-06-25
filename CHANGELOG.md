@@ -1,5 +1,60 @@
 # Changelog
 
+## [0.10.3] - 2026-06-25
+### Corrigido
+- Verificação super robusta para terminais popped out que permaneciam na lista:
+  - Acessa múltiplas propriedades (`creationOptions`, `state`, `processId`)
+  - Tenta enviar texto vazio para o terminal (chama `sendText('', true)` que lança erro se o terminal estiver fechado)
+  - Aumentada frequência de atualização para 1 segundo para sincronização mais rápida
+
+## [0.10.2] - 2026-06-25
+### Corrigido
+- Filtro mais rigoroso para identificar terminais realmente ativos usando `isTerminalActive()`
+- `getOpenClaudeTerminals()` e `getTerminalsInfo()` agora usam diretamente `vscode.window.terminals` e aplicam o filtro
+- Removida operação que escondia terminais acidentalmente durante verificação
+
+## [0.10.1] - 2026-06-25
+### Corrigido
+- Problema onde terminais fechados (popped out) permaneciam na lista da sidebar
+- Adicionada atualização periódica da lista de terminais (a cada 2 segundos) para garantir sincronismo
+- Melhorado tratamento de erros ao acessar propriedades de terminais que podem já ter sido fechados
+
+## [0.10.0] - 2026-06-25
+### Alterado
+- Sistema de sessões substituído por gerenciamento multi-terminal
+- Sidebar agora lista todos os terminais OpenClaude abertos
+- Botão "Novo Terminal" cria um novo terminal com nome único (OpenClaude, OpenClaude (2), ...)
+- Clique em um terminal na lista foca ele
+- Botão "✕" fecha o terminal
+- Barra de status e Ctrl+Esc agora sempre criam um novo terminal
+
+### Removido
+- Sistema de sessões (persistência via globalState, captura de saída, seletor de sessão)
+- Comando `openclaude-vscode.newSession`
+- Configuração `openclaude-vscode.maxSessions`
+
+## [0.9.0] - 2026-06-25
+### Adicionado
+- Captura automática do histórico do terminal OpenClaude por sessão
+- Seletor de sessão na sidebar: clique para ver o conteúdo gravado
+- Botão "Retomar Sessão" para abrir o terminal em uma sessão existente
+- Conteúdo do terminal é gravado em tempo real via `onDidWriteTerminalData`
+- ANSI codes são removidos automaticamente do conteúdo armazenado
+- Sessão ativa rastreada para associar saída do terminal à sessão correta
+
+## [0.8.0] - 2026-06-25
+### Adicionado
+- Gerenciamento de sessões no painel lateral: criar, retomar, renomear e excluir sessões
+- Comando "Nova Sessão OpenClaude" (openclaude-vscode.newSession)
+- Configuração `openclaude-vscode.maxSessions` para limitar o histórico de sessões
+- Sessões persistem via `context.globalState` e aparecem na sidebar do activity bar
+
+## [0.7.0] - 2026-06-25
+### Adicionado
+- Ícone do OpenClaude na barra de atividades (activity bar) com item clicável "Abrir OpenClaude"
+### Alterado
+- `displayName` traduzido para português: "OpenClaude para VS Code"
+
 ## [0.6.2] - 2026-06-24
 ### Corrigido
 - Comando `openclaude` não era enviado ao terminal ao clicar no botão — apenas o terminal era aberto sem executar nada.
